@@ -6,7 +6,7 @@ Every 5 seconds it will drop resources at random with different odds for differe
 
 UPDATE 1: The issue with resources not dropping from the drill when it is off screen is fixed, it will now always drop resources whether is it off screen or not!
 
-UPDATE 2: The drill now has an animation, courtesy of SMETTBO!
+UPDATE 2: The drill now has an animation, courtesy of SMETTBO (Steam Name)!
 
 UPDATE 3: Added unlocking Drills to the description for Drilling
 

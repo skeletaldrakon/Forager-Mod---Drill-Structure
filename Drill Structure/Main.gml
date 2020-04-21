@@ -1,11 +1,14 @@
 #define Main
-//dimensions are 27 x 43 (I want to improve the art later on)
-var sprDrill = sprite_add("forager_drill.png", 1, false, false, 13, 40);
+//dimensions are 27 x 43
+var sprDrill = sprite_add("forager_drill.png", 4, false, false, 13, 42);
+
+//add unlocking drills to the Drilling desc.
+LocalizationAddKey("english", "skillDesc7", "U unlocks drills and offshore drills**U offshore drills may gather sand*for free**U provides a 25% chance to*find coal when digging")
 
 //The only collidable part should be the base
 sprite_collision_mask(sprDrill, false, 2, 0, 34, 27, 43, 1, 0);
 
-global.drillStructure = StructureCreate(
+global.Drill = StructureCreate(
     undefined,
     "Drill",
     "Digs for items underground",
@@ -23,13 +26,14 @@ global.drillStructure = StructureCreate(
 
 #define OnSystemStep()
 //check if they have drilling and haven't already unlocked the structure
-if (HasSkill(Skill.Drilling) && !StructureGet(global.drillStructure, StructureData.Unlocked)) {
-    StructureEdit(global.drillStructure, StructureData.Unlocked, true);
+if (HasSkill(Skill.Drilling) && !StructureGet(global.Drill, StructureData.Unlocked)) {
+    StructureEdit(global.Drill, StructureData.Unlocked, true);
 }
 
 #define OnStructureSpawn(inst, structure)
+antiCull = true;
 global.count = 0; //used in DrillStep
-if (structure == global.drillStructure) {
+if (structure == global.Drill) {
     InstanceAssignMethod(inst, "step", ScriptWrap(DrillStep), true);
 }
 

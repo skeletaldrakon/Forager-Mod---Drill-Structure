@@ -29,7 +29,7 @@ Keep in mind you're always guaranteed to get stone
 
 
 ### Quantities
-There isn't any deviation between quanitities except for getting more sand from the Desert (which is shown in parantheses). This is the **base** amount that you get. The drill's drop quantities is affected by lighthouses.
+There isn't any devation between quanitities except for getting more sand from the Desert (which is shown in parantheses). This is the **base** amount that you get. The drill's drop quantities is affected by lighthouses.
 
 | Item        | Amount |
 | :--:        | :---: |

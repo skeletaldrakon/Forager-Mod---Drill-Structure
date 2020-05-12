@@ -22,7 +22,7 @@ global.Drill = StructureCreate(
     false, //edit to true when they get drilling
     BuildMenuCategory.Industrial,
     undefined,
-)
+);
 
 #define OnSystemStep()
 //check if they have drilling and haven't already unlocked the structure
@@ -35,12 +35,14 @@ antiCull = true;
 global.count = 0; //used in DrillStep
 if (structure == global.Drill) {
     InstanceAssignMethod(inst, "step", ScriptWrap(DrillStep), true);
+    inst.drillStepTimer = 0;
+    inst.lighthouseScale = 0;
 }
 
 #define DrillStep
-global.count++;
+drillStepTimer++;
 //every 5 seconds it does a drop (1 second == 60 frame)
-if (global.count == 60 * 5) {
-    ScriptCall(ScriptWrap(ChooseDrop)); //ChooseDrop is in it's own GML file
-    global.count = 0;
+if (drillStepTimer == 60 * 5) {
+    ChooseDrop(); //ChooseDrop is in it's own GML file
+    drillStepTimer = 0;
 }

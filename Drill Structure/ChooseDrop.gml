@@ -1,7 +1,8 @@
 #define ChooseDrop
 var chance = random_range(0, 100);
+lighthouseScale = LighthouseCalculate(x, y);
 //always drops stone
-DropItem(x, y, Item.Stone, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+DropItem(x, y, Item.Stone, round(irandom_range(3, 5) * lighthouseScale));
 /*
     40% of 3-5 Sand (or 7-10 in the Desert)
     30% of 3-5 Coal, Iron Ore, Gold Ore, or biome specific resource (Crystal or Obisidian)
@@ -13,18 +14,18 @@ DropItem(x, y, Item.Stone, round(irandom_range(3, 5) * LighthouseCalculate(x, y)
 if (chance <= 40) {
     //get more sand in the desert
     if (GetBiome(x, y) == Biome.Desert) {
-        DropItem(x, y, Item.Sand, round(irandom_range(7, 10) * LighthouseCalculate(x, y)));
+        DropItem(x, y, Item.Sand, round(irandom_range(7, 10) * lighthouseScale));
     } else {
-        DropItem(x, y, Item.Sand, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));   
+        DropItem(x, y, Item.Sand, round(irandom_range(3, 5) * lighthouseScale));   
     }
 } else if (chance > 40 && chance <= 70) {
-    ScriptCall(ScriptWrap(ChooseResource));
+    ChooseResource();
 } else if (chance > 70 && chance <= 90) {
-    ScriptCall(ScriptWrap(ChooseJunk));
+    ChooseJunk();
 } else if (chance > 90 && chance <= 99) {
-    ScriptCall(ScriptWrap(ChooseGem));
+    ChooseGem();
 } else {
-    ScriptCall(ScriptWrap(ChooseArtifact));
+    ChooseArtifact();
 }
 
 /* 
@@ -34,12 +35,13 @@ if (chance <= 40) {
     Fire uses the Volcano helper
 */
 #define ChooseResource
-if (GetBiome(x, y) != Biome.Volcano && GetBiome(x, y) != Biome.Snow) {
-    ScriptCall(ScriptWrap(ChooseResourceDefault));
-} else if (GetBiome(x, y) == Biome.Snow) {
-    ScriptCall(ScriptWrap(ChooseResourceSnow));
+var biome = GetBiome(x, y);
+if (biome != Biome.Volcano && biome != Biome.Snow) {
+    ChooseResourceDefault();
+} else if (biome == Biome.Snow) {
+    ChooseResourceSnow();
 } else {
-    ScriptCall(ScriptWrap(ChooseResourceVolcano));
+    ChooseResourceVolcano();
 }
 
 /* 
@@ -51,11 +53,11 @@ if (GetBiome(x, y) != Biome.Volcano && GetBiome(x, y) != Biome.Snow) {
 #define ChooseResourceDefault
 var chooseResource = random_range(1, 10);
 if (chooseResource <= 5) {
-    DropItem(x, y, Item.Coal, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Coal, round(irandom_range(3, 5) * lighthouseScale));
 } else if (chooseResource > 5 && chooseResource <= 8) {
-    DropItem(x, y, Item.IronOre, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.IronOre, round(irandom_range(3, 5) * lighthouseScale));
 } else {
-    DropItem(x, y, Item.GoldOre, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.GoldOre, round(irandom_range(3, 5) * lighthouseScale));
 }
 
 /* 
@@ -68,13 +70,13 @@ if (chooseResource <= 5) {
 #define ChooseResourceSnow
 var chooseResource = random_range(1, 10);
 if (chooseResource <= 3) {
-    DropItem(x, y, Item.Coal, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Coal, round(irandom_range(3, 5) * lighthouseScale));
 } else if (chooseResource > 3 && chooseResource <= 6) {
-    DropItem(x, y, Item.IronOre, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.IronOre, round(irandom_range(3, 5) * lighthouseScale));
 } else if (chooseResource > 6 && chooseResource <= 8) {
-    DropItem(x, y, Item.GoldOre, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.GoldOre, round(irandom_range(3, 5) * lighthouseScale));
 } else {
-    DropItem(x, y, Item.Crystal, round(irandom_range(2, 4) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Crystal, round(irandom_range(2, 4) * lighthouseScale));
 }
 
 /* 
@@ -87,13 +89,13 @@ if (chooseResource <= 3) {
 #define ChooseResourceVolcano
 var chooseResource = random_range(1, 10);
 if (chooseResource <= 4) {
-    DropItem(x, y, Item.Coal, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Coal, round(irandom_range(3, 5) * lighthouseScale));
 } else if (chooseResource > 4 && chooseResource <= 7) {
-    DropItem(x, y, Item.IronOre, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.IronOre, round(irandom_range(3, 5) * lighthouseScale));
 } else if (chooseResource > 7 && chooseResource <= 9)  {
-    DropItem(x, y, Item.GoldOre, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.GoldOre, round(irandom_range(3, 5) * lighthouseScale));
 } else {
-    DropItem(x, y, Item.Obsidian, round(irandom_range(1, 3) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Obsidian, round(irandom_range(1, 3) * lighthouseScale));
 }
 
 /* 
@@ -112,15 +114,15 @@ if (chooseJunk == 1) {
     if (GetBiome(x, y) == Biome.Volcano) {
         var chooseBone = random_range (1, 2);
         if (chooseBone == 1) {
-            DropItem(x, y, Item.Bone, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));  
+            DropItem(x, y, Item.Bone, round(irandom_range(3, 5) * lighthouseScale));  
         } else {
-            DropItem(x, y, Item.GreatSkull, round(1 * LighthouseCalculate(x, y)));  
+            DropItem(x, y, Item.GreatSkull, round(1 * lighthouseScale));  
         }
     } else {
-        DropItem(x, y, Item.Bone, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));     
+        DropItem(x, y, Item.Bone, round(irandom_range(3, 5) * lighthouseScale));     
     }
 } else {
-    DropItem(x, y, Item.Arrow, round(irandom_range(3, 5) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Arrow, round(irandom_range(3, 5) * lighthouseScale));
 }
 
 
@@ -134,13 +136,13 @@ if (chooseJunk == 1) {
 #define ChooseGem
 var chooseGem = random_range(1, 4);
 if (chooseGem == 1) {
-    DropItem(x, y, Item.Ruby, round(irandom_range(1, 3) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Ruby, round(irandom_range(1, 3) * lighthouseScale));
 } else if (chooseGem == 2) {
-    DropItem(x, y, Item.Emerald, round(irandom_range(1, 3) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Emerald, round(irandom_range(1, 3) * lighthouseScale));
 } else if (chooseGem == 3) {
-    DropItem(x, y, Item.Topaz, round(irandom_range(1, 3) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Topaz, round(irandom_range(1, 3) * lighthouseScale));
 } else {
-    DropItem(x, y, Item.Amethyst, round(irandom_range(1, 3) * LighthouseCalculate(x, y)));
+    DropItem(x, y, Item.Amethyst, round(irandom_range(1, 3) * lighthouseScale));
 }
 
 /* 
@@ -148,14 +150,15 @@ if (chooseGem == 1) {
     You get 1 artifact of that biome, which is always the one you'd get from a dig spot
 */
 #define ChooseArtifact
-if (GetBiome(x, y) == Biome.Grass) {
-    DropItem(x, y, Item.Fossil, round(1 * LighthouseCalculate(x, y)));
-} else if (GetBiome(x, y) == Biome.Desert) {
-    DropItem(x, y, Item.Sphynx, round(1 * LighthouseCalculate(x, y)));
-} else if (GetBiome(x, y) == Biome.Graveyard) {
-    DropItem(x, y, Item.Kapala, round(1 * LighthouseCalculate(x, y)));
-} else if (GetBiome(x, y) == Biome.Snow) {
-    DropItem(x, y, Item.FrozenRelic, round(1 * LighthouseCalculate(x, y)));
-} else if (GetBiome(x, y) == Biome.Volcano) {
-    DropItem(x, y, Item.DinoEgg, round(1 * LighthouseCalculate(x, y)));
+var biome = GetBiome(x, y);
+if (biome == Biome.Grass) {
+    DropItem(x, y, Item.Fossil, round(1 * lighthouseScale));
+} else if (biome == Biome.Desert) {
+    DropItem(x, y, Item.Sphynx, round(1 * lighthouseScale));
+} else if (biome == Biome.Graveyard) {
+    DropItem(x, y, Item.Kapala, round(1 * lighthouseScale));
+} else if (biome == Biome.Snow) {
+    DropItem(x, y, Item.FrozenRelic, round(1 * lighthouseScale));
+} else if (biome == Biome.Volcano) {
+    DropItem(x, y, Item.DinoEgg, round(1 * lighthouseScale));
 }
